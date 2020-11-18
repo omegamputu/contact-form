@@ -1,21 +1,17 @@
 <?php
-
+require '_inc.php';
 $errors = [];
+$emails = ['contact@local.dev', 'depanage@local.dev'];
 
-if (!array_key_exists('name', $_POST) || empty($_POST['name'])) {
-	# code...
-	$errors['name'] = "Vous n'avez pas renseigner votre nom.";
-}
+$validator = new Validator($_POST);
 
-if (!array_key_exists('email', $_POST) || empty($_POST['email']) || !filter_var($_POST['email'])) {
-	# code...
-	$errors['email'] = "Vous n'avez pas renseigner un email valide.";
-}
+$validator->check('name', 'required');
+$validator->check('email', 'required');
+$validator->check('email', 'email');
+$validator->check('objet', 'in', array_keys($emails));
+$validator->check('message', 'required');
 
-if (!array_key_exists('message', $_POST) || empty($_POST['message'])) {
-	# code...
-	$errors['message'] = "Vous n'avez pas renseigner votre message.";
-}
+$errors = $validator->errors();
 
 session_start();
 
@@ -28,8 +24,8 @@ if (!empty($errors)) {
 }else {
 	$_SESSION['success'] = "Votre email a bien été envoyé.";
 	$message = $_POST['message'];
-	$headers = "FROM: site@local.dev";
-	mail('contact@local.dev', 'Formulaire de contact', $message, $headers);
+	$headers = "FROM: " . $_POST['email'];
+	mail($emails[$_POST['objet']], 'Formulaire de contact de ' . $_POST['name'], $message, $headers);
 	header('location:index.php');
 	die();
 }

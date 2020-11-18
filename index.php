@@ -1,4 +1,7 @@
-<?php include 'partials/header.php'; ?>
+<?php 
+include '_inc.php';
+include 'partials/header.php'; 
+?>
 
 <main role="main" class="container">
 	<div class="row">
@@ -15,23 +18,14 @@
 					<?= $_SESSION['success']; ?>
 				</div>
 			<?php unset($_SESSION['success']); endif;  ?>
+			<?php $form = new Form(isset($_SESSION['inputs']) ? $_SESSION['inputs'] : []); ?>
 			<form action="traitement.php" method="post" role="form">
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="name">Votre nom complet</label>
-						<input type="text" id="name" name="name" class="form-control" value="<?= isset($_SESSION['inputs']['name']) ? $_SESSION['inputs']['name'] : ''; ?>">
-					</div>
-					<div class="form-group col-md-6">
-						<label for="email">Email Adress</label>
-						<input type="email" id="email" name="email" class="form-control" value="<?= isset($_SESSION['inputs']['email']) ? $_SESSION['inputs']['email'] : ''; ?>">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="message">Message</label>
-					<textarea id="message" name="message" class="form-control" rows="3"><?= isset($_SESSION['inputs']['message']) ? $_SESSION['inputs']['message'] : ''; ?>
-					</textarea>
-				</div>
-				<button type="submit" class="btn btn-primary">Envoyer</button>
+				<?= $form->text('name', 'Votre nom complet'); ?>
+				<?= $form->email('email', 'Votre adresse email'); ?>
+				<?= $form->select('objet', 'Objet', ["Demande d'informations", "Dépanage"]); ?>
+				<?= $form->textarea('message', 'Votre message'); ?>
+
+				<?= $form->submit('submit', 'Envoyer'); ?>
 			</form>
 		</div>
 	</div>
