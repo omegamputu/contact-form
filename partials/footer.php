@@ -5,3 +5,10 @@
     <script src="js/app.js"></script>
   </body>
 </html>
+
+<?php
+
+unset($_SESSION['errors']);
+unset($_SESSION['inputs']);
+
+?>
