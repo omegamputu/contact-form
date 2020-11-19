@@ -75,5 +75,25 @@ class Form {
 	{
 		return '<button type="submit" class="btn btn-primary">' . $label . '</button>';
 	}
+
+	public function csrf()
+	{
+		return "csrf=" . $_SESSION['csrf'];
+	}
+
+	public function csrfInput()
+	{
+		return '<input type="hidden" value="' . $_SESSION['csrf'] . '" name="csrf">';
+	}
+
+	public function checkCsrf()
+	{
+		if ((isset($_POST['csrf']) || $_POST['csrf'] != $_SESSION['csrf']) || (isset($_GET['csrf']) || $_GET['csrf'] != $_SESSION['csrf'])) {
+		    # code...
+			return true;
+		}
+		header('location:csrf.php');
+		die();
+	}
 }
 

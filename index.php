@@ -24,7 +24,7 @@ include 'partials/header.php';
 				<?= $form->email('email', 'Votre adresse email'); ?>
 				<?= $form->select('objet', 'Objet', ["Demande d'informations", "Dépanage"]); ?>
 				<?= $form->textarea('message', 'Votre message'); ?>
-
+				<?= $form->csrfInput(); ?>
 				<?= $form->submit('submit', 'Envoyer'); ?>
 			</form>
 		</div>

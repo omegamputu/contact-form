@@ -22,6 +22,8 @@ if (!empty($errors)) {
 	header('location:index.php');
 	exit();
 }else {
+	$form = new Form();
+	$form->checkCsrf();
 	$_SESSION['success'] = "Votre email a bien été envoyé.";
 	$message = $_POST['message'];
 	$headers = "FROM: " . $_POST['email'];
